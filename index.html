@@ -22,7 +22,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 40px;
+      padding: 40px 15px; /* Added some horizontal padding for very small screens */
       position: relative;
       overflow-x: hidden;
     }
@@ -125,10 +125,16 @@
       line-height: 1.7;
     }
 
+    /* DOWNLOAD BUTTON FIX FOR RESPONSIVENESS */
     .download-btn {
       display: block;
-      margin-left: 200px;
-      margin-right: 200px;
+      /* Removed fixed margins and replaced with auto for centering */
+      margin: 25px auto 0; /* Add top margin for spacing */
+      
+      /* Set max width to keep the original desktop look (980px - 45px*2 padding - 200px*2 margin = 590px content width, roughly) */
+      max-width: 580px; 
+      width: 90%; /* Use 90% width for mobile optimization */
+      
       padding: 18px 50px;
       background: linear-gradient(135deg, #ffefba, #ffffff);
       border-radius: 18px;
@@ -142,7 +148,7 @@
     }
 
     .download-btn:hover {
-      transform: scale(1.15);
+      transform: scale(1.05); /* Slightly reduced scale for better touch stability */
       box-shadow: 0 0 50px #fff;
     }
 
@@ -179,25 +185,43 @@
       opacity: 0.8;
       font-size: 14px;
     }
-  @media (max-width: 768px) {
-  h1 { font-size: 34px; }
-  .profile img { width: 120px; height: 120px; }
-  .profile h3 { font-size: 20px; }
-  .desc { font-size: 18px; padding: 0 10px; }
-  .download-btn { padding: 15px 35px; font-size: 20px; }
-  .wrapper { padding: 30px; }
-}
 
-@media (max-width: 480px) {
-  h1 { font-size: 28px; }
-  .profile img { width: 100px; height: 100px; }
-  .profile h3 { font-size: 18px; }
-  .desc { font-size: 16px; }
-  .download-btn { padding: 12px 25px; font-size: 18px; }
-  .wrapper { padding: 22px; border-radius: 18px; }
-}
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+      .wrapper { padding: 30px; }
+      h1 { font-size: 34px; }
+      .profile img { width: 120px; height: 120px; }
+      .profile h3 { font-size: 20px; }
+      .desc { font-size: 18px; padding: 0 0px; } /* Removed horizontal padding on desc */
+      
+      .download-btn { 
+        padding: 15px 35px; 
+        font-size: 20px; 
+        max-width: 90%; /* Let it stretch more on tablets */
+      }
+    }
 
-</style>
+    @media (max-width: 480px) {
+      .wrapper { 
+        padding: 22px 18px; /* Reduced side padding */
+        border-radius: 18px; 
+      }
+      h1 { font-size: 28px; }
+      .profile img { width: 100px; height: 100px; }
+      .profile h3 { font-size: 18px; }
+      .desc { font-size: 16px; }
+      .card { padding: 25px 15px; }
+
+      .download-btn { 
+        padding: 12px 25px; 
+        font-size: 18px; 
+        width: 100%; /* Make it full width inside the card padding */
+        max-width: none;
+      }
+      body { padding: 20px 10px; }
+    }
+
+  </style>
 </head>
 <body>
 
@@ -213,13 +237,21 @@
       move: { speed: 2 }
     }
   });
+
+  // Initialize Vanilla Tilt on the wrapper for the 3D effect
+  VanillaTilt.init(document.querySelector(".wrapper"), {
+    max: 10,
+    speed: 400
+  });
+
 </script>
 
 <div class="wrapper" data-tilt data-tilt-max="10" data-tilt-speed="400">
   <h1>🔥 Project Download Page 🔥</h1>
 
   <div class="profile">
-    <img src="developer.png" alt="Developer Photo" />
+    <!-- Using a placeholder image since the original "developer.png" isn't provided -->
+    <img src="developer.png" onerror="this.onerror=null;this.src='https://placehold.co/160x160/333399/FFFFFF?text=DVLPR';" alt="Developer Photo" />
     <h3>Developed by: Sachin </h3>
   </div>
 
@@ -231,11 +263,15 @@
     <a href="MonikaProject.zip" class="download-btn" download>⬇ Download Project ⬇</a>
   </div>
 
-  
+  <!-- Social Icons Section - Added mock links and icons for completeness -->
+  <div class="social">
+      <a href="https://github.com/jaat-sachin" aria-label="Github"><svg fill="#ffffff" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.805 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.087-.744.084-.689.084-.689 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.304.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.118-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.771.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.559 21.785 24 17.21 24 12 24 5.373 18.627 0 12 0z"/></svg></a>
+      <a href="#" aria-label="Twitter"><svg fill="#ffffff" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.79-1.574 2.164-2.722-.951.564-2.005.974-3.127 1.195-.89-.955-2.152-1.554-3.535-1.554-2.709 0-4.91 2.203-4.91 4.91 0 .385.044.757.13.111-4.087-.204-7.711-2.16-10.136-5.132-.424.729-.668 1.578-.668 2.483 0 1.705.867 3.21 2.188 4.093-.805-.026-1.564-.247-2.222-.614v.061c0 2.385 1.696 4.372 3.946 4.827-.413.111-.849.17-1.296.17-.318 0-.626-.031-.926-.088.631 1.956 2.445 3.375 4.6 3.414-1.68 1.314-3.804 2.103-6.155 2.103-.398 0-.79-.023-1.175-.069 2.167 1.392 4.758 2.209 7.558 2.209 9.055 0 14.008-7.502 14.008-14.008 0-.213-.005-.426-.014-.637.969-.699 1.815-1.579 2.484-2.585z"/></svg></a>
+      <a href="#" aria-label="Link"><svg fill="#ffffff" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17 7h-4v2h4c1.657 0 3 1.343 3 3s-1.343 3-3 3h-4v2h4c2.761 0 5-2.239 5-5s-2.239-5-5-5zm-10 4h-4c-2.761 0-5 2.239-5 5s2.239 5 5 5h4v-2h-4c-1.657 0-3-1.343-3-3s1.343-3 3-3h4v-2zm12.927-5.927c-.38-.38-.883-.586-1.414-.586s-1.034.206-1.414.586l-7.078 7.078c-.781.781-.781 2.047 0 2.828.39.39.902.586 1.414.586s1.024-.195 1.414-.586l7.078-7.078c.781-.781.781-2.047 0-2.828z"/></svg></a>
+  </div>
 
   <footer>© 2025 Sachin — All Rights Reserved</footer>
 </div>
 
 </body>
 </html>
-
